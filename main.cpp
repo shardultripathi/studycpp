@@ -64,4 +64,6 @@ int main() {
     toy::variant<int, float, std::string> v;
     v = 1123;
     std::cout << v.get<0>() << std::endl;
+    v = 3.14f;
+    std::cout << v.get<1>() << std::endl;
 }

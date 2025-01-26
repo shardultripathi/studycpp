@@ -71,10 +71,13 @@ class variant {
 
     template <typename T>
     static constexpr size_t index_of() {
-        size_t idx = 0;
-        constexpr bool found = ((std::is_same_v<T, Types> ? true : (++idx, false)) || ...);
-        static_assert(found, "Type not in variant");
-        return idx;
+        constexpr bool matches[] = {std::is_same_v<T, Types>...};
+        for (size_t i = 0; i < sizeof...(Types); ++i) {
+            if (matches[i]) {
+                return i;
+            }
+        }
+        return std::variant_npos;
     }
 
     alignas(align_size) std::byte storage_[storage_size];
