@@ -38,6 +38,8 @@ class HybridAllocator {
             auto dealloc_end = reinterpret_cast<const std::byte*>(p) + (n * sizeof(T));
             auto stack_top = &stackStorage[stackCount * sizeof(T)];
             if (dealloc_end == stack_top) {
+                // stupid allocator does not support partial deallocation
+                // the purpose is just to mix in a few concepts
                 stackCount -= n;
             }
         } else {
@@ -46,4 +48,4 @@ class HybridAllocator {
     }
 };
 
-}
+}  // namespace toy

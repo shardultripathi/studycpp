@@ -65,9 +65,9 @@ class SPSC_FifoQ {
             return false;
         }
 
-        std::byte* element = &ring_[Index(consumer_pos)];
-        out = std::move(*std::launder(reinterpret_cast<T*>(element)));
-        std::destroy_at(std::launder(reinterpret_cast<T*>(element)));
+        T* element_p = std::launder(reinterpret_cast<T*>(&ring_[Index(consumer_pos)]));
+        out = std::move(*element_p);
+        std::destroy_at(element_p);
 
         // memory_order_release: i.e. publish to producer that we advanced.
         consumer_pos_.store(consumer_pos + 1, std::memory_order_release);

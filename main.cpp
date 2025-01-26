@@ -8,6 +8,7 @@
 #include "myvector.h"
 #include "test.h"
 #include "threadpool.h"
+#include "variant.h"
 
 std::atomic<int> count = 0;
 
@@ -59,4 +60,8 @@ int main() {
     using namespace std::chrono_literals;
     std::this_thread::sleep_for(2s);
     std::cout << "enqueue counter: " << count << std::endl;
+
+    toy::variant<int, float, std::string> v;
+    v = 1123;
+    std::cout << v.get<0>() << std::endl;
 }
