@@ -48,7 +48,7 @@ class SPSC_FifoQ {
         }
 
         // Construct the object emplace.
-        ::new (&ring_[Index(producer_pos)]) T(std::forward<Args>(args)...);
+        ::new (std::launder(reinterpret_cast<T*>(&ring_[Index(producer_pos)]))) T(std::forward<Args>(args)...);
 
         // Advance the producer's cursor.
         // memory_order_release: to inform consumer that we advanced.
